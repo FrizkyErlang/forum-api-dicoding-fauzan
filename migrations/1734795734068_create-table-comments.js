@@ -32,7 +32,7 @@ exports.up = (pgm) => {
 
   pgm.addConstraint('comments', 'fk_comments.owner_users.id', 'FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE');
 
-  pgm.createIndex('comments', 'threads');
+  pgm.createIndex('comments', 'thread_id');
 
   pgm.addConstraint('comments', 'fk_comments.thread_id_threads.id', 'FOREIGN KEY(thread_id) REFERENCES threads(id) ON DELETE CASCADE');
 };
@@ -40,7 +40,7 @@ exports.up = (pgm) => {
 exports.down = (pgm) => {
   pgm.dropConstraint('comments', 'fk_comments.thread_id_threads.id');
 
-  pgm.dropIndex('comments', 'threads');
+  pgm.dropIndex('comments', 'thread_id');
 
   pgm.dropConstraint('comments', 'fk_comments.owner_users.id');
 
