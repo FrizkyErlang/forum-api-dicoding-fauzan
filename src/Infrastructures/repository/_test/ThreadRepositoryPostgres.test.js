@@ -92,7 +92,7 @@ describe('ThreadRepositoryPostgres', () => {
   });
 
   describe('getThread function', () => {
-    it('should persist add thread', async () => {
+    it('should return thread', async () => {
       // Arrange
       const owner = 'user-123';
       const stubThread = {

@@ -128,7 +128,7 @@ describe('CommentRepositoryPostgres', () => {
   });
 
   describe('getComment function', () => {
-    it('should persist add comment', async () => {
+    it('should return comment', async () => {
       // Arrange
       const owner = 'user-123';
       const threadId = 'thread-123';
