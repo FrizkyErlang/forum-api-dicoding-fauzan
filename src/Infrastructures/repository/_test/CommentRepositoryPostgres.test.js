@@ -127,7 +127,7 @@ describe('CommentRepositoryPostgres', () => {
     });
   });
 
-  describe('getComment function', () => {
+  describe('getComments function', () => {
     it('should return comment', async () => {
       // Arrange
       const owner = 'user-123';
@@ -146,7 +146,7 @@ describe('CommentRepositoryPostgres', () => {
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
       // Action
-      const comment = await commentRepositoryPostgres.getComment(stubComment.id);
+      const comment = await commentRepositoryPostgres.getComments(threadId);
 
       // Assert
       const users = await UsersTableTestHelper.findUsersById(owner);
