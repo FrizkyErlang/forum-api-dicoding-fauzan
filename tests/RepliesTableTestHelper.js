@@ -5,7 +5,7 @@ const pool = require('../src/Infrastructures/database/postgres/pool');
 const RepliesTableTestHelper = {
   async addComment({
     id = 'reply-123',
-    content = 'sebuah thread',
+    content = 'sebuah reply',
     is_delete = false,
     comment_id = 'comment-123',
     owner = 'user-123',
