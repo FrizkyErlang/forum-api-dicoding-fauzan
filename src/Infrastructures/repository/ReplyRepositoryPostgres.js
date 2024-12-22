@@ -54,17 +54,17 @@ class ReplyRepositoryPostgres extends ReplyRepository {
     return new AddedReply({ ...result.rows[0] });
   }
 
-  async getReply(replyId) {
+  async getReply(commentId) {
     const query = {
       text: `SELECT r.id, r.date, r.content, u.username
             FROM replies as r
             INNER JOIN users as u ON r.owner = u.id
-            WHERE r.id = $1`,
-      values: [replyId],
+            WHERE r.comment_id = $1`,
+      values: [commentId],
     };
 
     const result = await this._pool.query(query);
-    return result.rows[0];
+    return result.rows;
   }
 
   async deleteReply(replyId) {

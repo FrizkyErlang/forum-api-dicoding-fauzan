@@ -136,7 +136,7 @@ describe('ReplyRepositoryPostgres', () => {
     });
   });
 
-  describe('getReply function', () => {
+  describe('getReplies function', () => {
     it('should return reply', async () => {
       // Arrange
       const owner = 'user-123';
@@ -157,11 +157,12 @@ describe('ReplyRepositoryPostgres', () => {
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
 
       // Action
-      const comment = await replyRepositoryPostgres.getReply(stubReply.id);
+      const replies = await replyRepositoryPostgres.getReply(commentId);
 
       // Assert
+      expect(replies).toHaveLength(1);
       const users = await UsersTableTestHelper.findUsersById(owner);
-      expect(comment).toEqual({
+      expect(replies[0]).toEqual({
         id: stubReply.id,
         content: stubReply.content,
         date: stubReply.date,
