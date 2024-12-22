@@ -59,7 +59,9 @@ describe('JwtTokenManager', () => {
       const refreshToken = await jwtTokenManager.createRefreshToken({ username: 'dicoding' });
 
       // Action & Assert
-      await expect(jwtTokenManager.verifyRefreshToken(refreshToken)).resolves.not.toThrow(InvariantError);
+      await expect(jwtTokenManager.verifyRefreshToken(refreshToken)).resolves.not.toThrow(
+        InvariantError,
+      );
     });
   });
 

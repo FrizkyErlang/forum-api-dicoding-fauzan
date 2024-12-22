@@ -27,9 +27,15 @@ describe('AddUserUseCase', () => {
     const mockPasswordHash = new PasswordHash();
 
     /** mocking needed function */
-    mockUserRepository.verifyAvailableUsername = jest.fn().mockImplementation(() => Promise.resolve());
-    mockPasswordHash.hash = jest.fn().mockImplementation(() => Promise.resolve('encrypted_password'));
-    mockUserRepository.addUser = jest.fn().mockImplementation(() => Promise.resolve(mockRegisteredUser));
+    mockUserRepository.verifyAvailableUsername = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve());
+    mockPasswordHash.hash = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve('encrypted_password'));
+    mockUserRepository.addUser = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve(mockRegisteredUser));
 
     /** creating use case instance */
     const getUserUseCase = new AddUserUseCase({
@@ -46,7 +52,7 @@ describe('AddUserUseCase', () => {
         id: 'user-123',
         username: useCasePayload.username,
         fullname: useCasePayload.fullname,
-      })
+      }),
     );
 
     expect(mockUserRepository.verifyAvailableUsername).toBeCalledWith(useCasePayload.username);
@@ -56,7 +62,7 @@ describe('AddUserUseCase', () => {
         username: useCasePayload.username,
         password: 'encrypted_password',
         fullname: useCasePayload.fullname,
-      })
+      }),
     );
   });
 });
