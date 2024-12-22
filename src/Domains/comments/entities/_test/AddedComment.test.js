@@ -31,7 +31,7 @@ describe('a AddedComment entities', () => {
   it('should create addedComment object correctly', () => {
     // Arrange
     const payload = {
-      id: 'thread-123',
+      id: 'comment-123',
       content: 'sebuah comment',
       owner: 'user-123',
     };
