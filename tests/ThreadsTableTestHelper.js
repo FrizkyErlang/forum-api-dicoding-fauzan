@@ -10,7 +10,7 @@ const ThreadsTableTestHelper = {
     date = new Date().toISOString(),
   }) {
     const query = {
-      text: 'INSERT INTO threads VALUES($1, $2, $3, $4, $5) RETURNING id, title, owner',
+      text: 'INSERT INTO threads VALUES($1, $2, $3, $4, $5)',
       values: [id, title, body, owner, date],
     };
 
