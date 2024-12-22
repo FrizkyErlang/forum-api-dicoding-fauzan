@@ -149,6 +149,7 @@ describe('CommentRepositoryPostgres', () => {
       const comments = await commentRepositoryPostgres.getComments(threadId);
 
       // Assert
+      expect(comments).toHaveLength(1);
       const users = await UsersTableTestHelper.findUsersById(owner);
       expect(comments[0]).toEqual({
         id: stubComment.id,
