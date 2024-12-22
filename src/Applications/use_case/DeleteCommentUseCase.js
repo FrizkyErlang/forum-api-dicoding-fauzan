@@ -11,7 +11,7 @@ class DeleteCommentUseCase {
 
     await this._commentRepository.verifyCommentOwner(commentId, owner);
 
-    this._commentRepository.deleteComment(commentId);
+    await this._commentRepository.deleteComment(commentId);
   }
 }
 
