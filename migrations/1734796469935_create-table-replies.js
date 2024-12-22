@@ -12,7 +12,7 @@ exports.up = (pgm) => {
     is_delete: {
       type: 'BOOLEAN',
       notNull: true,
-      default: 'FALSE',
+      default: false,
     },
     comment_id: {
       type: 'VARCHAR(50)',
@@ -27,6 +27,8 @@ exports.up = (pgm) => {
       notNull: true,
     },
   });
+
+  pgm.createIndex('replies', 'is_delete');
 
   pgm.createIndex('replies', 'owner');
 
@@ -45,6 +47,8 @@ exports.down = (pgm) => {
   pgm.dropConstraint('replies', 'fk_replies.owner_users.id');
 
   pgm.dropIndex('replies', 'owner');
+
+  pgm.dropIndex('replies', 'is_delete');
 
   pgm.dropTable('replies');
 };
