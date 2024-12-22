@@ -54,7 +54,7 @@ class ReplyRepositoryPostgres extends ReplyRepository {
     return new AddedReply({ ...result.rows[0] });
   }
 
-  async getReply(commentId) {
+  async getReplies(commentId) {
     const query = {
       text: `SELECT r.id, r.date, r.content, u.username
             FROM replies as r
