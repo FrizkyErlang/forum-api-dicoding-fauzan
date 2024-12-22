@@ -146,11 +146,11 @@ describe('CommentRepositoryPostgres', () => {
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
       // Action
-      const comment = await commentRepositoryPostgres.getComments(threadId);
+      const comments = await commentRepositoryPostgres.getComments(threadId);
 
       // Assert
       const users = await UsersTableTestHelper.findUsersById(owner);
-      expect(comment).toEqual({
+      expect(comments[0]).toEqual({
         id: stubComment.id,
         username: users[0].username,
         content: stubComment.content,

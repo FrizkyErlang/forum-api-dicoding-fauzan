@@ -64,7 +64,7 @@ class CommentRepositoryPostgres extends CommentRepository {
     };
 
     const result = await this._pool.query(query);
-    return result.rows[0];
+    return result.rows;
   }
 
   async deleteComment(commentId) {
