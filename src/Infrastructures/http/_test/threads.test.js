@@ -195,22 +195,22 @@ describe('/threads endpoint', () => {
       expect(responseJson.data.addedThread).toBeDefined();
       expect(responseJson.data.addedThread.comments).toBeDefined();
     });
-  });
 
-  it('should response 404 when thread not found', async () => {
-    // Arrange
-    const server = await createServer(container);
+    it('should response 404 when thread not found', async () => {
+      // Arrange
+      const server = await createServer(container);
 
-    // Action
-    const response = await server.inject({
-      method: 'GET',
-      url: `/threads/thread-121`,
+      // Action
+      const response = await server.inject({
+        method: 'GET',
+        url: `/threads/thread-121`,
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(404);
+      expect(responseJson.status).toEqual('fail');
+      expect(responseJson.message).toBeDefined();
     });
-
-    // Assert
-    const responseJson = JSON.parse(response.payload);
-    expect(response.statusCode).toEqual(404);
-    expect(responseJson.status).toEqual('fail');
-    expect(responseJson.message).toBeDefined();
   });
 });
