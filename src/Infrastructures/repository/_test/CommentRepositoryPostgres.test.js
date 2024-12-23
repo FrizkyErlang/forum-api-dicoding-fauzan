@@ -156,6 +156,7 @@ describe('CommentRepositoryPostgres', () => {
         username: users[0].username,
         content: stubComment.content,
         date: stubComment.date,
+        is_delete: false,
       });
     });
   });

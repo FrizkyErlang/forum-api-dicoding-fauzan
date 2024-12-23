@@ -167,6 +167,7 @@ describe('ReplyRepositoryPostgres', () => {
         content: stubReply.content,
         date: stubReply.date,
         username: users[0].username,
+        is_delete: false,
       });
     });
   });
