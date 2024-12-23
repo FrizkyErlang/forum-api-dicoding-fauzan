@@ -197,6 +197,7 @@ describe('/threads endpoint', () => {
       expect(responseJson.data.addedThread.comments).toBeDefined();
     });
   });
+
   it('should response 404 when thread not found', async () => {
     // Arrange
     const server = await createServer(container);
