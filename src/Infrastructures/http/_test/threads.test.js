@@ -6,7 +6,6 @@ const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelp
 const RepliesTableTestHelper = require('../../../../tests/RepliesTableTestHelper');
 const container = require('../../container');
 const createServer = require('../createServer');
-// const AuthenticationTokenManager = require('../../../Applications/security/AuthenticationTokenManager');
 
 describe('/threads endpoint', () => {
   afterAll(async () => {
