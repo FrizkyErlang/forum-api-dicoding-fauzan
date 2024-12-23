@@ -59,7 +59,8 @@ class ReplyRepositoryPostgres extends ReplyRepository {
       text: `SELECT r.id, r.date, r.content, u.username, r.is_delete
             FROM replies as r
             INNER JOIN users as u ON r.owner = u.id
-            WHERE r.comment_id = $1`,
+            WHERE r.comment_id = $1
+            ORDER BY r.date asc`,
       values: [commentId],
     };
 
