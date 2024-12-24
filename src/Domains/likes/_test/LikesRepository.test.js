@@ -7,16 +7,16 @@ describe('LikesRepository interface', () => {
 
     // Action and Assert
     await expect(likesRepository.verifyLikedComment('')).rejects.toThrowError(
-      'COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED',
+      'LIKE_REPOSITORY.METHOD_NOT_IMPLEMENTED',
     );
     await expect(likesRepository.addLike('')).rejects.toThrowError(
-      'COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED',
+      'LIKE_REPOSITORY.METHOD_NOT_IMPLEMENTED',
     );
     await expect(likesRepository.deleteLike('')).rejects.toThrowError(
-      'COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED',
+      'LIKE_REPOSITORY.METHOD_NOT_IMPLEMENTED',
     );
     await expect(likesRepository.countLike('')).rejects.toThrowError(
-      'COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED',
+      'LIKE_REPOSITORY.METHOD_NOT_IMPLEMENTED',
     );
   });
 });
