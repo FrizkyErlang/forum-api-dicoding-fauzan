@@ -1,6 +1,7 @@
 class GetDetailThreadUseCase {
-  constructor({ replyRepository, commentRepository, threadRepository }) {
+  constructor({ replyRepository, likeRepository, commentRepository, threadRepository }) {
     this._replyRepository = replyRepository;
+    this._likeRepository = likeRepository;
     this._commentRepository = commentRepository;
     this._threadRepository = threadRepository;
   }
@@ -18,6 +19,7 @@ class GetDetailThreadUseCase {
     const populatedComment = comments.map(async (comment) => {
       const content = comment.is_delete ? '**komentar telah dihapus**' : comment.content;
       const replies = await this._getReplies(comment.id);
+      const likeCount = await this._likeRepository.countLike(comment.id);
 
       return {
         id: comment.id,
@@ -25,6 +27,7 @@ class GetDetailThreadUseCase {
         date: comment.date,
         content,
         replies,
+        likeCount,
       };
     });
 
