@@ -5,11 +5,11 @@ class LikesRepository {
     throw new Error('LIKE_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
 
-  async addLike(commentId, owner) {
+  async addLike(commentId, userId) {
     throw new Error('LIKE_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
 
-  async deleteLike(commentId, owner) {
+  async deleteLike(commentId, userId) {
     throw new Error('LIKE_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
 
