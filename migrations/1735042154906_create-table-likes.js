@@ -20,6 +20,8 @@ exports.up = (pgm) => {
 
   pgm.createIndex('likes', 'user_id');
 
+  pgm.addConstraint('likes', 'unique_user_id_and_comment_id', 'UNIQUE(user_id, comment_id)');
+
   pgm.addConstraint(
     'likes',
     'fk_likes.user_id_users.id',
@@ -44,7 +46,7 @@ exports.down = (pgm) => {
 
   pgm.dropIndex('likes', 'user_id');
 
-  pgm.dropIndex('likes', 'is_delete');
+  pgm.dropConstraint('likes', 'unique_user_id_and_comment_id');
 
   pgm.dropTable('likes');
 };
