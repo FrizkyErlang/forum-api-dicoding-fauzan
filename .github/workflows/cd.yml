@@ -22,4 +22,4 @@ jobs:
             git pull origin main
             npm clean-install
             npm run migrate up
-            pm2 restart forum-api-dicoding-fauzan
+            pm2 restart auth-api
