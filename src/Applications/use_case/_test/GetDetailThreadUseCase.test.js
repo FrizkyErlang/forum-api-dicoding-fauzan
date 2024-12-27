@@ -1,4 +1,5 @@
 const ReplyRepository = require('../../../Domains/replies/ReplyRepository');
+const LikesRepository = require('../../../Domains/likes/LikesRepository');
 const CommentRepository = require('../../../Domains/comments/CommentRepository');
 const ThreadRepository = require('../../../Domains/threads/ThreadRepository');
 const GetDetailThreadUseCase = require('../GetDetailThreadUseCase');
@@ -45,6 +46,7 @@ describe('GetDetailThreadUseCase', () => {
 
     /** creating dependency of use case */
     const mockReplyRepository = new ReplyRepository();
+    const mockLikesRepository = new LikesRepository();
     const mockCommentRepository = new CommentRepository();
     const mockThreadRepository = new ThreadRepository();
 
@@ -52,6 +54,7 @@ describe('GetDetailThreadUseCase', () => {
     mockReplyRepository.getReplies = jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockReplies));
+    mockLikesRepository.countLike = jest.fn().mockImplementation(() => Promise.resolve(1));
     mockCommentRepository.getComments = jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockComments));
@@ -63,6 +66,7 @@ describe('GetDetailThreadUseCase', () => {
     /** creating use case instance */
     const getDetailThreadUseCase = new GetDetailThreadUseCase({
       replyRepository: mockReplyRepository,
+      likeRepository: mockLikesRepository,
       commentRepository: mockCommentRepository,
       threadRepository: mockThreadRepository,
     });
@@ -97,6 +101,7 @@ describe('GetDetailThreadUseCase', () => {
               username: 'jane doe',
             },
           ],
+          likeCount: 1,
         },
       ],
     });
@@ -148,6 +153,7 @@ describe('GetDetailThreadUseCase', () => {
 
     /** creating dependency of use case */
     const mockReplyRepository = new ReplyRepository();
+    const mockLikesRepository = new LikesRepository();
     const mockCommentRepository = new CommentRepository();
     const mockThreadRepository = new ThreadRepository();
 
@@ -155,6 +161,7 @@ describe('GetDetailThreadUseCase', () => {
     mockReplyRepository.getReplies = jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockReplies));
+    mockLikesRepository.countLike = jest.fn().mockImplementation(() => Promise.resolve(1));
     mockCommentRepository.getComments = jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockComments));
@@ -166,6 +173,7 @@ describe('GetDetailThreadUseCase', () => {
     /** creating use case instance */
     const getDetailThreadUseCase = new GetDetailThreadUseCase({
       replyRepository: mockReplyRepository,
+      likeRepository: mockLikesRepository,
       commentRepository: mockCommentRepository,
       threadRepository: mockThreadRepository,
     });
@@ -200,6 +208,7 @@ describe('GetDetailThreadUseCase', () => {
               username: 'jane doe',
             },
           ],
+          likeCount: 1,
         },
       ],
     });
