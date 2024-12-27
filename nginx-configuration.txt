@@ -44,16 +44,20 @@ server {
 
 	server_name cool-bushes-obey-lazily.a276.dcdg.xyz www.cool-bushes-obey-lazily.a276.dcdg.xyz;
 
+	proxy_http_version 1.1;
+	proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection 'upgrade';
+	proxy_set_header Host $host;
+	proxy_cache_bypass $http_upgrade;
+
 	location / {
 		proxy_pass http://localhost:5000;
-		proxy_http_version 1.1;
-		proxy_set_header Upgrade $http_upgrade;
-		proxy_set_header Connection 'upgrade';
-		proxy_set_header Host $host;
-		proxy_cache_bypass $http_upgrade;
-		
+	}
+
+	location /threads {
+		proxy_pass http://localhost:5000/threads;
+
 		limit_req zone=one;
-		
 	}
 
 	# pass PHP scripts to FastCGI server
