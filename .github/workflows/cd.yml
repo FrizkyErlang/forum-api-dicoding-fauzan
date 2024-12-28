@@ -22,4 +22,5 @@ jobs:
             git pull origin main
             npm clean-install
             npm run migrate up
+            npm run migrate:test up
             pm2 restart auth-api
