@@ -8,7 +8,7 @@ describe('GetDetailThreadUseCase', () => {
   /**
    * Menguji apakah use case mampu mengoskestrasikan langkah demi langkah dengan benar.
    */
-  it('should orchestrating the add reply action correctly', async () => {
+  it('should orchestrating the get detail thread action correctly', async () => {
     // Arrange
     const date = new Date();
     const mockReplies = [
@@ -17,6 +17,7 @@ describe('GetDetailThreadUseCase', () => {
         date,
         content: 'sebuah reply 1',
         username: 'john doe',
+        comment_id: 'comment-123',
         is_delete: false,
       },
       {
@@ -24,7 +25,14 @@ describe('GetDetailThreadUseCase', () => {
         date,
         content: 'sebuah reply 2',
         username: 'jane doe',
+        comment_id: 'comment-123',
         is_delete: false,
+      },
+    ];
+    const mockLikes = [
+      {
+        comment_id: 'comment-123',
+        like_count: 3,
       },
     ];
     const mockComments = [
@@ -51,10 +59,12 @@ describe('GetDetailThreadUseCase', () => {
     const mockThreadRepository = new ThreadRepository();
 
     /** mocking needed function */
-    mockReplyRepository.getReplies = jest
+    mockReplyRepository.getRepliesByCommentIds = jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockReplies));
-    mockLikesRepository.countLike = jest.fn().mockImplementation(() => Promise.resolve(1));
+    mockLikesRepository.countLikeByCommentIds = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve(mockLikes));
     mockCommentRepository.getComments = jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockComments));
@@ -101,12 +111,12 @@ describe('GetDetailThreadUseCase', () => {
               username: 'jane doe',
             },
           ],
-          likeCount: 1,
+          likeCount: 3,
         },
       ],
     });
-    expect(mockReplyRepository.getReplies).toBeCalledTimes(1);
-    expect(mockReplyRepository.getReplies).toBeCalledWith('comment-123');
+    expect(mockReplyRepository.getRepliesByCommentIds).toBeCalledTimes(1);
+    expect(mockReplyRepository.getRepliesByCommentIds).toBeCalledWith(['comment-123']);
     expect(mockCommentRepository.getComments).toBeCalledTimes(1);
     expect(mockCommentRepository.getComments).toBeCalledWith('thread-123');
     expect(mockThreadRepository.verifyThread).toBeCalledTimes(1);
@@ -115,7 +125,7 @@ describe('GetDetailThreadUseCase', () => {
     expect(mockThreadRepository.getThread).toBeCalledWith('thread-123');
   });
 
-  it("should orchestrating the add reply action correctly when there's deleted comment or reply", async () => {
+  it("should orchestrating the get detail thread action correctly when there's deleted comment or reply", async () => {
     // Arrange
     const date = new Date();
     const mockReplies = [
@@ -124,6 +134,7 @@ describe('GetDetailThreadUseCase', () => {
         date,
         content: 'sebuah reply 1',
         username: 'john doe',
+        comment_id: 'comment-123',
         is_delete: true,
       },
       {
@@ -131,9 +142,11 @@ describe('GetDetailThreadUseCase', () => {
         date,
         content: 'sebuah reply 2',
         username: 'jane doe',
+        comment_id: 'comment-123',
         is_delete: false,
       },
     ];
+    const mockLikes = [];
     const mockComments = [
       {
         id: 'comment-123',
@@ -158,10 +171,12 @@ describe('GetDetailThreadUseCase', () => {
     const mockThreadRepository = new ThreadRepository();
 
     /** mocking needed function */
-    mockReplyRepository.getReplies = jest
+    mockReplyRepository.getRepliesByCommentIds = jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockReplies));
-    mockLikesRepository.countLike = jest.fn().mockImplementation(() => Promise.resolve(1));
+    mockLikesRepository.countLikeByCommentIds = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve(mockLikes));
     mockCommentRepository.getComments = jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockComments));
@@ -208,12 +223,12 @@ describe('GetDetailThreadUseCase', () => {
               username: 'jane doe',
             },
           ],
-          likeCount: 1,
+          likeCount: 0,
         },
       ],
     });
-    expect(mockReplyRepository.getReplies).toBeCalledTimes(1);
-    expect(mockReplyRepository.getReplies).toBeCalledWith('comment-123');
+    expect(mockReplyRepository.getRepliesByCommentIds).toBeCalledTimes(1);
+    expect(mockReplyRepository.getRepliesByCommentIds).toBeCalledWith(['comment-123']);
     expect(mockCommentRepository.getComments).toBeCalledTimes(1);
     expect(mockCommentRepository.getComments).toBeCalledWith('thread-123');
     expect(mockThreadRepository.verifyThread).toBeCalledTimes(1);

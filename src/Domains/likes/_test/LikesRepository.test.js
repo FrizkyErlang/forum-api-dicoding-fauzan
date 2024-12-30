@@ -18,5 +18,8 @@ describe('LikesRepository interface', () => {
     await expect(likesRepository.countLike('')).rejects.toThrowError(
       'LIKE_REPOSITORY.METHOD_NOT_IMPLEMENTED',
     );
+    await expect(likesRepository.countLikeByCommentIds('')).rejects.toThrowError(
+      'LIKE_REPOSITORY.METHOD_NOT_IMPLEMENTED',
+    );
   });
 });

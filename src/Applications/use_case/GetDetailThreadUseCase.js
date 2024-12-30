@@ -1,3 +1,7 @@
+const PopulatedComment = require('../../Domains/comments/entities/PopulatedComment');
+const GetReply = require('../../Domains/replies/entities/GetReply');
+const PopulatedThread = require('../../Domains/threads/entities/PopulatedThread');
+
 class GetDetailThreadUseCase {
   constructor({ replyRepository, likeRepository, commentRepository, threadRepository }) {
     this._replyRepository = replyRepository;
@@ -15,43 +19,44 @@ class GetDetailThreadUseCase {
     // get Comment data
     const comments = await this._commentRepository.getComments(threadId);
 
-    // get Reply data and populate the comment with replies
-    const populatedComment = comments.map(async (comment) => {
-      const content = comment.is_delete ? '**komentar telah dihapus**' : comment.content;
-      const replies = await this._getReplies(comment.id);
-      const likeCount = await this._likeRepository.countLike(comment.id);
+    // get Reply data
+    const replies = await this._replyRepository.getRepliesByCommentIds(
+      comments.map((comment) => comment.id),
+    );
 
-      return {
-        id: comment.id,
-        username: comment.username,
-        date: comment.date,
-        content,
-        replies,
-        likeCount,
-      };
-    });
+    // get likeCounts
+    const likeCounts = await this._likeRepository.countLikeByCommentIds(
+      comments.map((comment) => comment.id),
+    );
+
+    // populate the comment with replies and like count
+    const populatedComment = comments.map(
+      (comment) =>
+        new PopulatedComment(
+          comment,
+          this._mapReplies(comment.id, replies),
+          this._mapLikeCounts(comment.id, likeCounts),
+        ),
+    );
 
     // Populate the Thread with comments
-    Object.assign(thread, { comments: await Promise.all(populatedComment) });
+    const populatedThread = new PopulatedThread(thread, populatedComment);
 
-    return thread;
+    return populatedThread;
   }
 
-  async _getReplies(commentId) {
-    const replies = await this._replyRepository.getReplies(commentId);
+  _mapReplies(commentId, replies) {
+    const filteredReply = replies.filter((reply) => reply.comment_id === commentId);
 
-    const populatedReplies = replies.map((reply) => {
-      const content = reply.is_delete ? '**balasan telah dihapus**' : reply.content;
+    const getReplies = filteredReply.map((reply) => new GetReply(reply));
 
-      return {
-        id: reply.id,
-        date: reply.date,
-        content,
-        username: reply.username,
-      };
-    });
+    return getReplies;
+  }
 
-    return populatedReplies;
+  _mapLikeCounts(commentId, likeCounts) {
+    const likeCount = likeCounts.find((reply) => reply.comment_id === commentId)?.like_count || 0;
+
+    return likeCount;
   }
 }
 
