@@ -41,7 +41,6 @@ class GetDetailThreadUseCase {
 
     // Populate the Thread with comments
     const populatedThread = new PopulatedThread(thread, populatedComment);
-    // Object.assign(thread, { comments: populatedComment });
 
     return populatedThread;
   }
