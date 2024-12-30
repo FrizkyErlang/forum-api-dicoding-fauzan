@@ -156,7 +156,7 @@ describe('ReplyRepositoryPostgres', () => {
         'comment-123',
         'comment-234',
       ]);
-      console.log(likesCount);
+
       // Assert
       expect(likesCount[0].comment_id).toEqual('comment-123');
       expect(likesCount[0].like_count).toEqual(2);
