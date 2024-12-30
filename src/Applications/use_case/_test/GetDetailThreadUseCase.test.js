@@ -29,6 +29,12 @@ describe('GetDetailThreadUseCase', () => {
         is_delete: false,
       },
     ];
+    const mockLikes = [
+      {
+        comment_id: 'comment-123',
+        like_count: 3,
+      },
+    ];
     const mockComments = [
       {
         id: 'comment-123',
@@ -56,7 +62,9 @@ describe('GetDetailThreadUseCase', () => {
     mockReplyRepository.getRepliesByCommentIds = jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockReplies));
-    mockLikesRepository.countLike = jest.fn().mockImplementation(() => Promise.resolve(1));
+    mockLikesRepository.countLikeByCommentIds = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve(mockLikes));
     mockCommentRepository.getComments = jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockComments));
@@ -103,7 +111,7 @@ describe('GetDetailThreadUseCase', () => {
               username: 'jane doe',
             },
           ],
-          likeCount: 1,
+          likeCount: 3,
         },
       ],
     });
@@ -138,6 +146,7 @@ describe('GetDetailThreadUseCase', () => {
         is_delete: false,
       },
     ];
+    const mockLikes = [];
     const mockComments = [
       {
         id: 'comment-123',
@@ -165,7 +174,9 @@ describe('GetDetailThreadUseCase', () => {
     mockReplyRepository.getRepliesByCommentIds = jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockReplies));
-    mockLikesRepository.countLike = jest.fn().mockImplementation(() => Promise.resolve(1));
+    mockLikesRepository.countLikeByCommentIds = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve(mockLikes));
     mockCommentRepository.getComments = jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockComments));
@@ -212,7 +223,7 @@ describe('GetDetailThreadUseCase', () => {
               username: 'jane doe',
             },
           ],
-          likeCount: 1,
+          likeCount: 0,
         },
       ],
     });
