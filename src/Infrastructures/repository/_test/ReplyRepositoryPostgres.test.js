@@ -172,6 +172,85 @@ describe('ReplyRepositoryPostgres', () => {
     });
   });
 
+  describe('getRepliesByCommentIds function', () => {
+    it('should return replies', async () => {
+      // Arrange
+      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+      const owner = 'user-123';
+      const threadId = 'thread-123';
+      const commentIdA = 'comment-123';
+      const commentIdB = 'comment-234';
+      const stubReplyA = {
+        id: 'reply-123',
+        content: 'sebuah reply 1',
+        is_delete: false,
+        comment_id: commentIdA,
+        owner,
+        date: new Date().toISOString(),
+      };
+      await sleep(100);
+      const stubReplyB = {
+        id: 'reply-234',
+        content: 'sebuah reply 2',
+        is_delete: false,
+        comment_id: commentIdB,
+        owner,
+        date: new Date().toISOString(),
+      };
+      await sleep(100);
+      const stubReplyC = {
+        id: 'reply-345',
+        content: 'sebuah reply 3',
+        is_delete: false,
+        comment_id: commentIdB,
+        owner,
+        date: new Date().toISOString(),
+      };
+      await UsersTableTestHelper.addUser({ id: owner });
+      await ThreadsTableTestHelper.addThread({ id: threadId });
+      await CommentsTableTestHelper.addComment({ id: commentIdA });
+      await CommentsTableTestHelper.addComment({ id: commentIdB });
+      await RepliesTableTestHelper.addReply(stubReplyA);
+      await RepliesTableTestHelper.addReply(stubReplyB);
+      await RepliesTableTestHelper.addReply(stubReplyC);
+      const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
+
+      // Action
+      const replies = await replyRepositoryPostgres.getRepliesByCommentIds([
+        commentIdA,
+        commentIdB,
+      ]);
+
+      // Assert
+      expect(replies).toHaveLength(3);
+      const users = await UsersTableTestHelper.findUsersById(owner);
+      expect(replies[0]).toEqual({
+        id: stubReplyA.id,
+        content: stubReplyA.content,
+        date: stubReplyA.date,
+        username: users[0].username,
+        is_delete: false,
+        comment_id: commentIdA,
+      });
+      expect(replies[1]).toEqual({
+        id: stubReplyB.id,
+        content: stubReplyB.content,
+        date: stubReplyB.date,
+        username: users[0].username,
+        is_delete: false,
+        comment_id: commentIdB,
+      });
+      expect(replies[2]).toEqual({
+        id: stubReplyC.id,
+        content: stubReplyC.content,
+        date: stubReplyC.date,
+        username: users[0].username,
+        is_delete: false,
+        comment_id: commentIdB,
+      });
+    });
+  });
+
   describe('deleteReply function', () => {
     it('should change is_delete comment to true', async () => {
       // Arrange
