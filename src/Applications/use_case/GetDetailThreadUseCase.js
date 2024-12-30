@@ -1,5 +1,6 @@
 const PopulatedComment = require('../../Domains/comments/entities/PopulatedComment');
 const GetReply = require('../../Domains/replies/entities/GetReply');
+const PopulatedThread = require('../../Domains/threads/entities/PopulatedThread');
 
 class GetDetailThreadUseCase {
   constructor({ replyRepository, likeRepository, commentRepository, threadRepository }) {
@@ -39,9 +40,10 @@ class GetDetailThreadUseCase {
     );
 
     // Populate the Thread with comments
-    Object.assign(thread, { comments: populatedComment });
+    const populatedThread = new PopulatedThread(thread, populatedComment);
+    // Object.assign(thread, { comments: populatedComment });
 
-    return thread;
+    return populatedThread;
   }
 
   _mapReplies(commentId, replies) {
