@@ -124,4 +124,44 @@ describe('ReplyRepositoryPostgres', () => {
       expect(likesCount).toEqual(3);
     });
   });
+
+  describe('countLikeByCommentIds function', () => {
+    it('should return like(s) count for comment', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({ id: 'user-123', username: 'user1' });
+      await UsersTableTestHelper.addUser({ id: 'user-234', username: 'user2' });
+      await UsersTableTestHelper.addUser({ id: 'user-345', username: 'user3' });
+      await ThreadsTableTestHelper.addThread({ id: 'thread-123' });
+      await CommentsTableTestHelper.addComment({ id: 'comment-123' });
+      await CommentsTableTestHelper.addComment({ id: 'comment-234' });
+      await LikesTableTestHelper.addLike({
+        id: 'like-123',
+        commentId: 'comment-123',
+        userId: 'user-123',
+      });
+      await LikesTableTestHelper.addLike({
+        id: 'like-234',
+        commentId: 'comment-123',
+        userId: 'user-234',
+      });
+      await LikesTableTestHelper.addLike({
+        id: 'like-345',
+        commentId: 'comment-234',
+        userId: 'user-345',
+      });
+      const likeRepositoryPostgres = new LikeRepositoryPostgres(pool, {});
+
+      // Action
+      const likesCount = await likeRepositoryPostgres.countLikeByCommentIds([
+        'comment-123',
+        'comment-234',
+      ]);
+      console.log(likesCount);
+      // Assert
+      expect(likesCount[0].comment_id).toEqual('comment-123');
+      expect(likesCount[0].like_count).toEqual(2);
+      expect(likesCount[1].comment_id).toEqual('comment-234');
+      expect(likesCount[1].like_count).toEqual(1);
+    });
+  });
 });
